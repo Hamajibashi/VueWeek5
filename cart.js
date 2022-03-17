@@ -48,11 +48,13 @@ const app = Vue.createApp({
                 },
                 message:'',
             },
+            isPageLoading: false,
         };
     },
     methods:{
         //取得產品列表
         getProducts(){
+            this.addLoading();
             axios.get(`${apiUrl}/api/${apiPath}/products/all`)
                 .then(res=>{
                     this.products = res.data.products;
@@ -148,6 +150,12 @@ const app = Vue.createApp({
                 alert(err.data.message);
             });
         },
+        addLoading() {
+            this.isPageLoading = true;
+            setTimeout(()=>{
+                this.isPageLoading = false;
+          },700)
+        }
     },
     mounted(){
         this.getProducts();
@@ -192,5 +200,7 @@ app.component('product-modal',{
         this.modal = new bootstrap.Modal(this.$refs.modal,{ keyboard:false });
     },
 });
+
+app.component('page-loading',VueLoading.Component)
 
 app.mount('#app');

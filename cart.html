@@ -11,12 +11,14 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css'
         integrity='sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw=='
         crossorigin='anonymous' />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-loading-overlay@5.0.2/dist/vue-loading.css">
 </head>
 
 <body>
     <div id="app">
         <div class="container">
             <div class="mt-4">
+                <page-loading :active="isPageLoading"></page-loading>
 
                 <!-- 產品Modal -->
                 <product-modal :id="productId" ref="productModal" @add-cart="addToCart"></product-modal>
@@ -237,6 +239,7 @@
         integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-loading-overlay@5.0.2/dist/vue-loading.min.js"></script>
     <!-- 載入 VeeValidate 套件 -->
     <script src="https://unpkg.com/vee-validate@next"></script>
     <script src="https://unpkg.com/@vee-validate/i18n@4.1.0"></script>
