@@ -1,5 +1,5 @@
 # VueWeek5
-<strong>第五週 - 進階語法介紹</strong>
+<strong>第五週 - 進階語法介紹</strong><br>
 ⭕使用 VeeValidate 套件完成表單驗證功能，操作文件（無ESM 版本）<br>
 ⭕使用 loading 套件製作 loading 效果 <br>
 ⭕串接前台 API 完成購物車功能 <br>
