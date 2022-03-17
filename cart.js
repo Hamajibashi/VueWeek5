@@ -1,9 +1,32 @@
-import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.29/vue.esm-browser.prod.min.js';
-
+//API 網址與路徑
 const apiUrl = 'https://vue3-course-api.hexschool.io/v2';
 const apiPath = 'mylmii';
 
-const app = createApp({
+//veeValidate
+const { defineRule, Form, Field, ErrorMessage, configure } = VeeValidate;
+const { required, email, min, max } = VeeValidateRules;
+const { localize, loadLocaleFromURL } = VeeValidateI18n;
+
+//定義驗證規則
+defineRule('required',required);
+defineRule('email',email);
+defineRule('min',min);
+defineRule('max',max);
+
+//載入正體中文提示訊息
+loadLocaleFromURL('https://unpkg.com/@vee-validate/i18n@4.1.0/dist/locale/zh_TW.json');
+
+configure({
+    generateMessage:localize('zh_TW'),
+});
+
+const app = Vue.createApp({
+    // VeeValidate
+    components:{
+        VForm:Form,
+        VField:Field,
+        ErrorMessage:ErrorMessage,
+    },
     data(){
         return{
             //購物車列表
@@ -12,6 +35,15 @@ const app = createApp({
             products:[],
             productId:'',
             isLoadingItem:'',
+            form:{
+                user:{
+                    name:'',
+                    email:'',
+                    tel:'',
+                    address:'',
+                },
+                message:'',
+            },
         };
     },
     methods:{
@@ -20,6 +52,9 @@ const app = createApp({
             axios.get(`${apiUrl}/api/${apiPath}/products/all`)
                 .then(res=>{
                     this.products = res.data.products;
+                })
+                .catch(err=>{
+                    alert(err.data.message);
                 });
         },
         //打開 productModal
@@ -31,9 +66,11 @@ const app = createApp({
         getCart(){
             axios.get(`${apiUrl}/api/${apiPath}/cart`)
                 .then(res=>{
-                    console.log(res);
                     this.cartData = res.data.data;
                 })
+                .catch(err=>{
+                    alert(err.data.message);
+                });
         },
         //加入購物車
         addToCart(id, qty = 1){
@@ -44,18 +81,37 @@ const app = createApp({
             this.isLoadingItem = id;
             axios.post(`${apiUrl}/api/${apiPath}/cart`,{data})
             .then(res=>{
+                alert(res.data.message);
                 this.getCart();
                 this.$refs.productModal.closeModal();
                 this.isLoadingItem = '';
+            })
+            .catch(err=>{
+                alert(err.data.message);
             });
         },
-        //刪除特定品項
+        //刪除購物車特定品項
         removeCartItem(id){
             this.isLoadingItem = id;
             axios.delete(`${apiUrl}/api/${apiPath}/cart/${id}`)
             .then(res=>{
+                alert(res.data.message);
                 this.getCart();
                 this.isLoadingItem = '';
+            })
+            .catch(err=>{
+                alert(err.data.message);
+            });
+        },
+        //刪除購物車全部品項
+        removeAllCart(){
+            axios.delete(`${apiUrl}/api/${apiPath}/carts`)
+            .then(res=>{
+                alert(res.data.message);
+                this.getCart();
+            })
+            .catch(err=>{
+                alert(err.data.message);
             });
         },
         //更新數量
@@ -67,8 +123,25 @@ const app = createApp({
             this.isLoadingItem = item.id;
             axios.put(`${apiUrl}/api/${apiPath}/cart/${item.id}`,{data})
             .then(res=>{
+                alert(res.data.message);
                 this.getCart();
                 this.isLoadingItem = '';
+            })
+            .catch(err=>{
+                alert(err.data.message);
+                this.isLoadingItem = '';
+            });
+        },
+        createOrder(){
+            const order = this.form;
+            axios.post(`${apiUrl}/api/${apiPath}/order`,{data:order})
+            .then(res=>{
+                alert(res.data.message);
+                this.$refs.form.resetForm();
+                this.getCart();
+            })
+            .catch(err=>{
+                alert(err.data.message);
             });
         },
     },
