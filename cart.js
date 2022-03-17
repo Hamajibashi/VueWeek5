@@ -30,11 +30,14 @@ const app = Vue.createApp({
     data(){
         return{
             //購物車列表
-            cartData:{},
+            cartData:{
+                carts:[],
+            },
             //產品列表
             products:[],
             productId:'',
             isLoadingItem:'',
+            //訂單資料
             form:{
                 user:{
                     name:'',
