@@ -4,7 +4,7 @@ const apiPath = 'mylmii';
 
 //veeValidate
 const { defineRule, Form, Field, ErrorMessage, configure } = VeeValidate;
-const { required, email, min, max } = VeeValidateRules;
+const { required, email, min, max, integer } = VeeValidateRules;
 const { localize, loadLocaleFromURL } = VeeValidateI18n;
 
 //定義驗證規則
@@ -12,6 +12,7 @@ defineRule('required',required);
 defineRule('email',email);
 defineRule('min',min);
 defineRule('max',max);
+defineRule('integer',integer);
 
 //載入正體中文提示訊息
 loadLocaleFromURL('https://unpkg.com/@vee-validate/i18n@4.1.0/dist/locale/zh_TW.json');
